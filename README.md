@@ -1,7 +1,9 @@
 # Subsonic_Synology
 Subsonic setup to run on Synology NAS
 
-This is tested on the Synology DS1815+ but should work on most modern synology devices.
+This is tested on the Synology DS1815+ but should work on most modern synology devices.  This uses the Subsonic 5.2.1 standalone package with some modifications to the subsonic.sh script, the addition of a start/stop/status script to control the server and the addition of some default directories for music / playlists / podcasts so that subsonic doesn't try to access areas that don't exist by default.
+
+The instructions below explain where to put everything and how to get it all running.
 
 ## Install Java
 
@@ -44,9 +46,33 @@ Save the file and exit
 
 11) That's it you should be ready to go, the server will start on port 8082 by default.  If you want to change this simply edit the subsonic.sh file and change the port variable right at the top of the file to whatever port you want.
 
-## Running:
+## Run it automatically & Keep it Running
 
-The start-stop-status script is used to control Subsonic, just run the commands below from the console as root
+We are going to setup a scheduled task to start subsonic.  You can click on the task and run it manually at any time to start the service, say after a reboot.  Otherwise the task will run daily.  It will check if subsonic is already running and if so just log that it is up.  If it is not running then it will start it.
+
+We tell the task to run as root in the config but the script that it is running automatically runs the process as the subsonic user.  You can confirm this by connecting with SSH and running:
+
+`ps | grep java`
+
+You will see that the process is owned by the subsonic user.
+
+On your Synology NAS go to the DSM web interface.  Go to Control Panel and Task Scheduler.
+
+1) Create / User Defined Script
+
+`Task: Subsonic Launcher`
+`User: root`
+`Enabled: checked`
+`Run Command:`
+`/var/subsonic/start-stop-status start`
+
+Leave the schedule as Daily as it is by default.
+
+2) click on your new task and choose run to run it manually the first time and start subsonic.
+
+## Running From the Command Line:
+
+The start-stop-status script is used to control Subsonic, just run the commands below from the console as root, when you logout though the process will be killed.  Synology's console does not honor nohup either.
 
 start:
 
