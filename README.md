@@ -27,10 +27,10 @@ This is tested on the Synology DS1815+ but should work on most modern synology d
 vi /etc/passwd
 
 Find the line for your subsonic user (the numbers may be different but don't worry about it):
-subsonic:x:1029:100:Subsonic User/var/services/homes/subsonic:/sbin/nologin
+`subsonic:x:1029:100:Subsonic User/var/services/homes/subsonic:/sbin/nologin`
 
 Edit the subsonic user to have it's home folder set to the subsonic home folder and to allow it to run services:
-subsonic:x:1029:100:Subsonic User:/var/subsonic:/bin/sh
+`subsonic:x:1029:100:Subsonic User:/var/subsonic:/bin/sh`
 
 Save the file and exit
 
