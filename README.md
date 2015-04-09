@@ -61,12 +61,18 @@ On your Synology NAS go to the DSM web interface.  Go to Control Panel and Task 
 1) Create / User Defined Script
 
 Task: Subsonic Launcher
+
 User: root
+
 Enabled: checked
+
 Run Command:
+
 /var/subsonic/start-stop-status start
 
+
 Leave the schedule as Daily as it is by default.
+
 
 2) click on your new task and choose run to run it manually the first time and start subsonic.
 
