@@ -9,11 +9,12 @@ INSTALL_DIR="/var/subsonic"
 USER="subsonic"
 SUBSONIC="/var/subsonic/subsonic.sh"
 LOG_FILE="/var/subsonic/subsonic.log"
+LOG_FILE_SH="/var/subsonic/subsonic_sh.log"
 PID_FILE="/var/subsonic/ss.pid"
 
 start_daemon ()
 {
-    su - ${USER} -c "${SUBSONIC}"
+    su - ${USER} -c "${SUBSONIC}" &
 }
 
 stop_daemon ()
@@ -49,10 +50,12 @@ wait_for_status ()
 case $1 in
     start)
         if daemon_status; then
-            echo ${DNAME} is already running
+	    echo ${DNAME} is already running
+            echo ${DNAME} is already running >> ${LOG_FILE_SH}
             exit 0
         else
             echo Starting ${DNAME} ...
+ 	    echo Starting ${DNAME} ... >> ${LOG_FILE_SH}
             start_daemon
             exit $?
         fi
@@ -60,6 +63,7 @@ case $1 in
     stop)
         if daemon_status; then
             echo Stopping ${DNAME} ...
+ 	    echo Stopping ${DNAME} ... >> ${LOG_FILE_SH}
             stop_daemon
             exit $?
         else
