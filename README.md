@@ -49,12 +49,15 @@ Save the file and exit
 The start-stop-status script is used to control Subsonic, just run the commands below from the console as root
 
 start:
+
 `/var/subsonic/start-stop-status start`
 
 stop:
+
 `/var/subsonic/start-stop-status stop`
 
 check if subsonic is running:
+
 `/var/subsonic/start-stop-status status`
 
 You could also add the the start command to a startup script so that subsonic is run on boot
