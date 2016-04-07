@@ -9,11 +9,13 @@ The instructions below explain where to put everything and how to get it all run
 
 ## Upgrade to Latest Version
 1) ssh into the synology
+
 2) stop subsonic
 
 `/var/subsonic/start-stop-status stop`
 
 3) copy the contents of this repo over the top of the existing files in /var/subsonic (your DB will be safe!)
+
 4) Set the subsonic user to own the subsonic folder so that it can create the files and folders it needs:
 
 `chown -R subsonic:root /var/subsonic`
@@ -23,6 +25,8 @@ The instructions below explain where to put everything and how to get it all run
 `chmod +x /var/subsonic/start-stop-status`
 
 6) Go to the webUI for the Synology and run the subsonic scheduled task to start subsonic running as usual in the background.s
+
+##First Time Install
 
 ## Install Java
 
