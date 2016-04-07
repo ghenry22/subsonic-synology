@@ -1,9 +1,11 @@
 # Subsonic_Synology
 Subsonic setup to run on Synology NAS
 
-This is tested on the Synology DS1815+ but should work on most modern synology devices.  This uses the Subsonic 5.2.1 standalone package with some modifications to the subsonic.sh script, the addition of a start/stop/status script to control the server and the addition of some default directories for music / playlists / podcasts so that subsonic doesn't try to access areas that don't exist by default.
+This is tested on the Synology DS1815+ but should work on most modern synology devices.  This uses the Subsonic 5.3 standalone package with some modifications to the subsonic.sh script, the addition of a start/stop/status script to control the server and the addition of some default directories for music / playlists / podcasts so that subsonic doesn't try to access areas that don't exist by default.
 
 The instructions below explain where to put everything and how to get it all running.
+
+7APR2016 - Updated to Subsonic 5.3
 
 ## Upgrade to Latest Version
 1) ssh into the synology
