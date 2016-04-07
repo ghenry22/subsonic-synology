@@ -2,7 +2,7 @@
 
 # Package
 PACKAGE="subsonic"
-DNAME="subsonic 5.2.1"
+DNAME="subsonic 5.3"
 
 # Others
 INSTALL_DIR="/var/subsonic"
