@@ -71,13 +71,12 @@ postinst ()
     if [ -f /var/packages/Serviio/target/bin/ffmpeg ]; then
         ln -s /var/packages/Serviio/target/bin/ffmpeg ${SYNOPKG_PKGDEST}/transcode/ffmpeg
         echo "$(date +%d.%m.%y_%H:%M:%S): Linked ffmpeg file to Serviio" >> ${SYNOPKG_PKGDEST}/subsonic_package.log
-    fi
-    
-    #use the ffmpeg from serviio if available
-    if [ -f /usr/syno/bin/ffmpeg ]; then
-        ln -s /usr/syno/bin/ffmpeg ${SYNOPKG_PKGDEST}/transcode/ffmpeg
+
+    #use the ffmpeg from synology
+    elif [ -f /usr/bin/ffmpeg ]; then
+        ln -s /usr/bin/ffmpeg ${SYNOPKG_PKGDEST}/transcode/ffmpeg
         echo "$(date +%d.%m.%y_%H:%M:%S): Linked ffmpeg file to internal Synology ffmpeg " >> ${SYNOPKG_PKGDEST}/subsonic_package.log
-    fi	
+    fi
 	
     #########################################
     ##start subsonic
