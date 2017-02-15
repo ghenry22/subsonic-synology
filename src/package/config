@@ -1,0 +1,14 @@
+{
+	".url": {
+		"org.subsonic": {
+			"type": "url",
+			"allUsers": true,
+			"title": "subsonic",
+			"desc": "Subsonic Music Streamer",
+			"icon": "images/icon_48.png",
+			"protocol": "http",
+			"url": "/",
+			"port": "4040"
+		}		
+	}
+}

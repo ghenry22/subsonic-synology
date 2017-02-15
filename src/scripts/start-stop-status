@@ -1,0 +1,104 @@
+#!/bin/sh
+
+#-------- subsonic start-stop-status script --------
+#-------- package maintained @ https://github.com/ghenry22/Subsonic_Synology --------
+
+####################################################
+#function to get the process id of subsonic
+PID=""
+subsonic_get_pid ()
+{
+	PID=`ps -ax | grep java | grep subsonic | head -n 1 | awk '{print $1}'`
+	#echo "$(date +%d.%m.%y_%H:%M:%S): looking for PID" >> ${SYNOPKG_PKGDEST}/subsonic_package.log
+}
+get_time()
+{
+	TIME=$(date +%d.%m.%y_%H:%M:%S)
+}
+
+case "$1" in
+   start)
+	  ###---copied from patters start-stop-status.sh of his crashplan proe package---
+	  DAEMON_ID="${SYNOPKG_PKGNAME} daemon user"
+	  DAEMON_HOME="`cat /etc/passwd | grep "${DAEMON_ID}" | cut -f6 -d':'`"
+    
+	  #set the current timezone for Java so that log timestamps are accurate
+	  #we need to use the modern timezone names so that Java can figure out DST 
+	  SYNO_TZ=`cat /etc/synoinfo.conf | grep timezone | cut -f2 -d'"'`
+	  SYNO_TZ=`grep "^${SYNO_TZ}" /usr/share/zoneinfo/Timezone/tzname | sed -e "s/^.*= //"`
+	  grep "^export TZ" ${DAEMON_HOME}/.profile > /dev/null \
+	  && sed -i "s%^export TZ=.*$%export TZ='${SYNO_TZ}'%" ${DAEMON_HOME}/.profile \
+	  ###---end of copy---------------------------------------------------------------
+	  
+	  #set up symlinks for the DSM GUI icon
+	  #subsonic main
+	  if [ -d /usr/syno/synoman/webman/3rdparty ]; then
+		ln -s ${SYNOPKG_PKGDEST}/ /usr/syno/synoman/webman/3rdparty/subsonic
+		echo "$(date +%d.%m.%y_%H:%M:%S): subsonic DSM link created" >> ${SYNOPKG_PKGDEST}/subsonic_package.log
+	  else 
+		echo "$(date +%d.%m.%y_%H:%M:%S) : Error: Directory for subsonic DSM link was not found" >> ${SYNOPKG_PKGDEST}/subsonic_package.log
+	  fi
+      #create custom temp folder so temp files can be bigger 
+	  if [ ! -d ${SYNOPKG_PKGDEST}/../../@tmp/subsonic ]; then
+		mkdir ${SYNOPKG_PKGDEST}/../../@tmp/subsonic
+		chown -R subsonic ${SYNOPKG_PKGDEST}/../../@tmp/subsonic
+		echo "$(date +%d.%m.%y_%H:%M:%S): Temp directory created" >> ${SYNOPKG_PKGDEST}/subsonic_package.log
+	  fi
+	  #create symlink to the created directory
+	  if [ ! -L /tmp/subsonic ]; then
+		ln -s ${SYNOPKG_PKGDEST}/../../@tmp/subsonic /tmp/
+		echo "$(date +%d.%m.%y_%H:%M:%S): Temp directory link created" >> ${SYNOPKG_PKGDEST}/subsonic_package.log
+	  fi
+	  # starting subsonic as subsonic daemon user
+	  echo "$(date +%d.%m.%y_%H:%M:%S): starting subsonic as subsonic daemon user" >> ${SYNOPKG_PKGDEST}/subsonic_package.log
+      su - subsonic -s /bin/sh -c /usr/syno/synoman/webman/3rdparty/subsonic/subsonic.sh
+      sleep 10
+	  echo "$(date +%d.%m.%y_%H:%M:%S): started subsonic as subsonic daemon user" >> ${SYNOPKG_PKGDEST}/subsonic_package.log
+	  subsonic_get_pid
+	  if [ ! -z $PID ]; then
+		echo "$(date +%d.%m.%y_%H:%M:%S): started subsonic successfully. PID is: $PID" >> ${SYNOPKG_PKGDEST}/subsonic_package.log
+		echo "$(date +%d.%m.%y_%H:%M:%S): ----subsonic is running----" >> ${SYNOPKG_PKGDEST}/subsonic_package.log
+	  else
+		echo "$(date +%d.%m.%y_%H:%M:%S): Error: Can not start subsonic" >> ${SYNOPKG_PKGDEST}/subsonic_package.log
+		exit 1
+	  fi
+	   
+	  exit 0
+   ;;
+   stop)
+      #stop subsonic
+	  subsonic_get_pid
+      kill $PID
+	  echo "$(date +%d.%m.%y_%H:%M:%S) : killed subsonic PID: $PID" >> ${SYNOPKG_PKGDEST}/subsonic_package.log
+      sleep 2 
+	  #delete Symlinks and DSM icon
+	  if [ -L /usr/syno/synoman/webman/3rdparty/subsonic ]; then
+		rm /usr/syno/synoman/webman/3rdparty/subsonic
+		echo "$(date +%d.%m.%y_%H:%M:%S): subsonic DSM link deleted" >> ${SYNOPKG_PKGDEST}/subsonic_package.log
+	  fi
+	  if [ -d ${SYNOPKG_PKGDEST}/../../@tmp/subsonic ]; then
+		rm -r ${SYNOPKG_PKGDEST}/../../@tmp/subsonic
+		echo "$(date +%d.%m.%y_%H:%M:%S): Temp files deleted" >> ${SYNOPKG_PKGDEST}/subsonic_package.log
+	  fi
+	  if [ -L /tmp/subsonic ]; then
+		rm /tmp/subsonic
+		echo "$(date +%d.%m.%y_%H:%M:%S): Temp link deleted" >> ${SYNOPKG_PKGDEST}/subsonic_package.log
+	  fi
+	  echo "$(date +%d.%m.%y_%H:%M:%S): ----subsonic is stopped----" >> ${SYNOPKG_PKGDEST}/subsonic_package.log
+	  exit 0
+   ;;
+   status)
+      subsonic_get_pid
+      if [ -z  $PID ]; then
+	  #subsonic is not running
+		exit 1
+	  else
+	  #subsonic is running
+		exit 0
+      fi
+   ;;
+   log)
+	  echo "${SYNOPKG_PKGDEST}/subsonic_package.log"
+	  exit 0
+   ;;
+esac
