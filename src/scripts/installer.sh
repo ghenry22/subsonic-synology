@@ -116,7 +116,7 @@ postinst ()
     fi
 
     #give it some time to start up
-    sleep 90
+    sleep 120
 
     #stop subsonic
 
@@ -181,11 +181,24 @@ preupgrade ()
     
     subsonic_get_pid
     if [ ! -z $PID ]; then 
-        echo "$(date +%d.%m.%y_%H:%M:%S): stopping subsonic" >> ${SYNOPKG_PKGDEST}/subsonic_package.log
+        echo "$(date +%d.%m.%y_%H:%M:%S): stopping subsonic for upgrade" >> ${SYNOPKG_PKGDEST}/subsonic_package.log
         kill $PID
         sleep 5
     fi
 
+    #create temporary storage for db and settings backup
+    if [ ! -d  ${SYNOPKG_PKGDEST}/../../@tmp/subsonic_upgrade ]; then
+        mkdir ${SYNOPKG_PKGDEST}/../../@tmp/subsonic_upgrade
+        chown -R subsonic ${SYNOPKG_PKGDEST}/../../@tmp/subsonic_upgrade
+    fi
+
+    #backup settings and db
+    cp ${SYNOPKG_PKGDEST}/subsonic.properties ${SYNOPKG_PKGDEST}/../../@tmp/subsonic_upgrade/
+    cp -R ${SYNOPKG_PKGDEST}/db ${SYNOPKG_PKGDEST}/../../@tmp/subsonic_upgrade/
+    cp -R ${SYNOPKG_PKGDEST}/lucene2 ${SYNOPKG_PKGDEST}/../../@tmp/subsonic_upgrade/
+    echo "$(date +%d.%m.%y_%H:%M:%S): backed up database and settings" >> ${SYNOPKG_PKGDEST}/subsonic_package.log
+
+    #remove the subsonic temp directory
     if [ -d ${SYNOPKG_PKGDEST}/../../@tmp/subsonic ]; then
         rm -r ${SYNOPKG_PKGDEST}/../../@tmp/subsonic
     fi
@@ -195,6 +208,18 @@ preupgrade ()
 
 postupgrade ()
 {
+
+    #restore database and config
+    cp ${SYNOPKG_PKGDEST}/../../@tmp/subsonic_upgrade/subsonic.properties ${SYNOPKG_PKGDEST}/subsonic.properties
+    cp -R ${SYNOPKG_PKGDEST}/../../@tmp/subsonic_upgrade/db ${SYNOPKG_PKGDEST}/
+    cp -R ${SYNOPKG_PKGDEST}/../../@tmp/subsonic_upgrade/lucene2 ${SYNOPKG_PKGDEST}/
+    echo "$(date +%d.%m.%y_%H:%M:%S): restored database and settings" >> ${SYNOPKG_PKGDEST}/subsonic_package.log
+
+    remove upgrade temp storage
+    if [ -d  ${SYNOPKG_PKGDEST}/../../@tmp/subsonic_upgrade ]; then
+        rm -rf ${SYNOPKG_PKGDEST}/../../@tmp/subsonic_upgrade
+    fi
+
     #subsonic may not own all new files
     chown -R subsonic ${SYNOPKG_PKGDEST}/
 

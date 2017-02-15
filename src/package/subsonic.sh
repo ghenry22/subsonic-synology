@@ -15,8 +15,8 @@ elif [ $RAM -le 256 ]; then
     SUBSONIC_INIT_MEMORY=64
     SUBSONIC_MAX_MEMORY=192
 elif [ $RAM -gt 256 ]; then
-    SUBSONIC_INIT_MEMORY=128
-    SUBSONIC_MAX_MEMORY=384
+    SUBSONIC_INIT_MEMORY=256
+    SUBSONIC_MAX_MEMORY=512
 fi
 
 SUBSONIC_HOME=/usr/syno/synoman/webman/3rdparty/subsonic
