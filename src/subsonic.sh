@@ -190,6 +190,7 @@ ${JAVA} -Xms${SUBSONIC_INIT_MEMORY}m -Xmx${SUBSONIC_MAX_MEMORY}m \
   -Dsubsonic.gzip=${SUBSONIC_GZIP} \
   -Dsubsonic.db="${SUBSONIC_DB}" \
   -Djava.awt.headless=true \
+  -Djava.net.preferIPv4Stack=true \
   -jar subsonic-booter-jar-with-dependencies.jar > ${LOG} 2>&1 &
   sleep 5
 
