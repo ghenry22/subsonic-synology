@@ -2,6 +2,7 @@
 #--------package maintained at https://github.com/ghenry22/Subsonic_Synology
 #--------This log only shows the changes of the spk versions. 
 
+6.1.2 - updated to subsonic server 6.1.2
 6.1.1 - updated to subsonic version 6.1.1
 6.0.1 - updated to use the system ffmpeg install for transcoding, contains Subsonic 6.0
 6.0 - Subsonic 6.0 contains Subsonic 6.0
