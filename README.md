@@ -10,4 +10,4 @@ This package creates a user called subsonic which is visible in the DSM user int
 
 You can start / stop / restart the subsonic server through the DSM Package manager.  To update to the latest version just grab the spk file from the release page here and do a manual install through the DSM package manager and it will update.
 
-The current spk inclues subsonic server v6.0
+The latest SPK file contains subsonic server 6.1.1.  Check the releases page for current and historical binaries.
