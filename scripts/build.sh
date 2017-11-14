@@ -5,6 +5,6 @@ tar -cvzf package.tgz *
 cp package.tgz ../
 cd ..
 rm -rf ./package
-tar -cvf ../Subsonic612.spk *
+tar -cvf ../Subsonic613.spk *
 cd ../../scripts
 rm -rf ../build/buildtemp

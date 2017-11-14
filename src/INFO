@@ -1,5 +1,5 @@
 package="Subsonic"
-version="6.1.2"
+version="6.1.3"
 description="Subsonic is a web-based media streamer and jukebox server. You can control it remotely with its web interface or dedicated applications."
 maintainer="Subsonic is developed at subsonic.org, Synology package is maintained at https://github.com/ghenry22/Subsonic_Synology"
 distributor="Gaven Henry"
