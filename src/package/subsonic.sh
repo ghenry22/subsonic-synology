@@ -8,16 +8,19 @@
 
 
 RAM=$((`free | grep Mem: | sed -e "s/^ *Mem: *\([0-9]*\).*$/\1/"`/1024))
-if [ $RAM -le 128 ]; then
+if [ $RAM -le 129 ]; then
     SUBSONIC_INIT_MEMORY=32
     SUBSONIC_MAX_MEMORY=80
-elif [ $RAM -le 256 ]; then
+elif [ $RAM -le 257 ]; then
     SUBSONIC_INIT_MEMORY=64
     SUBSONIC_MAX_MEMORY=192
 elif [ $RAM -le 1025 ]; then
     SUBSONIC_INIT_MEMORY=128
     SUBSONIC_MAX_MEMORY=192
-elif [ $RAM -gt 1024 ]; then
+elif [ $RAM -le 2049 ]; then
+    SUBSONIC_INIT_MEMORY=256
+    SUBSONIC_MAX_MEMORY=256
+elif [ $RAM -gt 2048 ]; then
     SUBSONIC_INIT_MEMORY=256
     SUBSONIC_MAX_MEMORY=512
 fi
