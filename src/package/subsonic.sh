@@ -14,7 +14,10 @@ if [ $RAM -le 128 ]; then
 elif [ $RAM -le 256 ]; then
     SUBSONIC_INIT_MEMORY=64
     SUBSONIC_MAX_MEMORY=192
-elif [ $RAM -gt 256 ]; then
+elif [ $RAM -le 1025 ]; then
+    SUBSONIC_INIT_MEMORY=128
+    SUBSONIC_MAX_MEMORY=192
+elif [ $RAM -gt 1024 ]; then
     SUBSONIC_INIT_MEMORY=256
     SUBSONIC_MAX_MEMORY=512
 fi
