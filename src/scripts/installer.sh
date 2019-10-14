@@ -101,7 +101,7 @@ postinst ()
     fi
 
     #start subsonic as subsonic user
-    su - subsonic -s /bin/sh -c /usr/syno/synoman/webman/3rdparty/subsonic/subsonic.sh
+    su - subsonic -s /bin/sh -c "/usr/syno/synoman/webman/3rdparty/subsonic/subsonic.sh $(cat /etc/synology.options 2>&1 || true)"
 
     sleep 10
     
