@@ -1,4 +1,8 @@
-# Subsonic_Synology
+# Airsonic-Synology
+There is an airsonic based variation of this project at https://github.com/ghenry22/airsonic-synology. This includes packages releases for airsonic and airsonic-advanced.
+I have set this as a seperate repo for the moment until I can find a nice way to combine them.  There are many differences in the configuration files and variables between subsonic/airsonic/airsonic-advanced.
+
+# Subsonic-Synology
 This project packages the subsonic music server (http://subsonic.org) into an installable SPK file for running on Synology NAS devices.  Check the releases tab for the latest version.
 
 # Requirements
