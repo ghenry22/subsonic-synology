@@ -8,6 +8,7 @@ This project packages the subsonic music server (http://subsonic.org) into an in
 # Requirements
 Synology DSM 6.0 or later
 Java and Perl packages (install them through package manager first to save time)
+DSM 7.0 currently not supported due to changes in package format and installer limitations.  Will update when this is available and working.
 
 # Notes
 This package creates a user called subsonic which is visible in the DSM user interface, you should grant this user access to your music folder.  The subsonic server also runs under this user account.
