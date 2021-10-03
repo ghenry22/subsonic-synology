@@ -51,7 +51,7 @@ case "$1" in
 	  fi
 	  # starting subsonic as subsonic daemon user
 	  echo "$(date +%d.%m.%y_%H:%M:%S): starting subsonic as subsonic daemon user" >> ${SYNOPKG_PKGDEST}/subsonic_package.log
-      su - subsonic -s /bin/sh -c /usr/syno/synoman/webman/3rdparty/subsonic/subsonic.sh
+      su - subsonic -s /bin/sh -c "/usr/syno/synoman/webman/3rdparty/subsonic/subsonic.sh $(cat /etc/synology.options 2>&1 || true)"
       sleep 10
 	  echo "$(date +%d.%m.%y_%H:%M:%S): started subsonic as subsonic daemon user" >> ${SYNOPKG_PKGDEST}/subsonic_package.log
 	  subsonic_get_pid
